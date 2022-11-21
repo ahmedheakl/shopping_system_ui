@@ -1,7 +1,9 @@
 require_relative "item_manager"
+require_relative "ownable"
 
 class Cart
   include ItemManager
+  include Ownable
 
   def initialize(owner)
     self.owner = owner
@@ -24,6 +26,12 @@ class Cart
 
   def check_out
     return if owner.wallet.balance < total_amount
+
+    self.owner.wallet.withdraw(total_amount)
+    @items.each do |item|
+      item.owner = self.owner
+    end
+    @items = []
   # Requirements
   # - The purchase amount of all items in the cart（Cart#items）is transferred from the cart owner's wallet to the item owner's wallet.
   # - The owner rights of all items in the cart（Cart#items）are transferred to the cart owner.
