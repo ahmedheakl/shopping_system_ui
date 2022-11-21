@@ -29,6 +29,7 @@ class Cart
 
     self.owner.wallet.withdraw(total_amount)
     @items.each do |item|
+      item.owner.deposit(item.price)
       item.owner = self.owner
     end
     @items = []

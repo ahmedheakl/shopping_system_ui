@@ -1,8 +1,10 @@
 require "kosi"
 require_relative "item"
+require_relative "ownable"
 
 # Include this module to be able to manipulate the Item instances that you own.
 module ItemManager
+  include Ownable
   def items # This function returns all Item instances owned by itself (of which it is the owner).
     Item.all.select{|item| item.owner == self }
   end
